@@ -1,7 +1,7 @@
 #Configuracion del log para la aplicacion
 logging:
   file:
-    name: /tmp/grafana-test.log
+    name: /tmp/aplicacion-test.log
   level:
     org.springframework: INFO
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
