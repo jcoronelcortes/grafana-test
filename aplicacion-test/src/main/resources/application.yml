@@ -1,0 +1,21 @@
+#Configuracion del log para la aplicacion
+logging:
+  file:
+    name: /tmp/grafana-test.log
+  level:
+    org.springframework: INFO
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg traceID=%X{trace_id} %n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} - %logger{36} - %msg traceID=%X{trace_id} %n"
+
+#Configuracion del log para Tomcat
+server:
+  tomcat:
+    accesslog:
+      enabled: true
+      rotate: false
+      suffix: .log
+      prefix: access_log
+      directory: /tmp
+      pattern: common
