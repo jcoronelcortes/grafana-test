@@ -17,7 +17,7 @@ services:
       - "8080:8080"
 
   # Encargado de ejecutar la shellscript para simular trafico
-  simulaxor-carga:
+  simulador-carga:
     image: curlimages/curl:latest
     volumes:
       - ../aplicacion-test/simulador-carga.sh:/tmp/simulador-carga.sh
