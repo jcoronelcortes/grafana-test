@@ -24,10 +24,7 @@ public class TestController {
     private final Histogram histogramaDuracionRequest;
     private final Summary resumenDuracionRequest;
 
-    /**
-     * GET /hello will trigger a GET request to /god-of-fire. That way, we get a
-     * nice distributed trace for the OpenTelemetry agent.
-     */
+
     @GetMapping("/prueba")
     public String prueba() throws IOException {
         String path = "/prueba";
@@ -90,7 +87,7 @@ public class TestController {
 
     private void errorRandom(String path) throws IOException {
         if (Math.random() > 0.9) {
-            throw new IOException("Error radom en " + path + "!");
+            throw new IOException("Error random en " + path + "!");
         }
     }
 }
