@@ -54,3 +54,26 @@ Para bajar todos los contenedores se debe ejecutar la instruccion:
 cd grafana-test/local
 docker-compose down
 ```
+
+## OpenTelemetry
+
+Un [recolector de OpenTelemetry](https://opentelemetry.io/docs/collector/) es un compnonete que se encuntra entre la aplicacion que se desea monitorear y la solucion de monitoreo, y es responsable de ejecutar las siguientes tareas:
+
+- Recibir/Obtener
+- Procesar
+- Exportar
+
+Para este projecto se ha configurado el agente de Java, el cual esta encargado de instrumentar la aplicacion y enviar (push) las metricas usando el protocolo de OpenTelemetry (OTLP) al agente de Grafana, el cual a su vez expone las metricas para que Prometheus las consuma (scraping).
+
+La comnfiguracion del agente Java se realiza usando la variable de ambiente **JAVA_TOOL_OPTIONS: -javaagent:./opentelemetry-javaagent.jar**, pero por defecto las metricas se encuntran deshabilitadas. Para habilitar las metricas se debe configurar la variable de ambiente **OTEL_TRACES_EXPORTER: otlp**. Toda esta configuracion se encuntra en el archivo **docker-compose.yaml** al momento de configurar las variable de ambiente para la aplicacion **aplicacion-test**:
+
+```
+environment:
+  # Configuracion del trace automatico usando el agente de java
+  JAVA_TOOL_OPTIONS: -javaagent:./opentelemetry-javaagent.jar    
+  OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: http://tempo:4317
+  OTEL_SERVICE_NAME: aplicacion-test
+  OTEL_TRACES_EXPORTER: otlp
+```
+
+Esto habilita
