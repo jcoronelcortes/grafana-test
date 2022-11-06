@@ -1,4 +1,4 @@
-package apliacion.test.cl.filter;
+package apliacion.test.cl.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

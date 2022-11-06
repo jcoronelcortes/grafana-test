@@ -1,4 +1,4 @@
-FROM amazoncorretto:17.0.3-alpine as corretto-jdk
+FROM openjdk:11.0.1-jre-slim-stretch
 EXPOSE 8080
 ARG JAR=aplicacion-test.jar
 COPY target/$JAR /app.jar
