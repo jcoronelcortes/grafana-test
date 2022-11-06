@@ -1,2 +1,3 @@
-/.idea/
-/aplicacion-test/target/
+/.idea/*
+/aplicacion-test/target/*
+/local/config/tempo-data/*
