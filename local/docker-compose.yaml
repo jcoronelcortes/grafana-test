@@ -97,13 +97,14 @@ services:
       - loki
 
   agent:
-    image: grafana/agent:latest
+    image: grafana/agent:v0.25.1
     volumes:
       # Configuracion del agente
       - ./config/agent.yaml:/etc/agent-config/agent.yaml
       # Archivos de logs
       - ./logs/aplicacion-test.log:/tmp/aplicacion-test.log
       - ./logs/access_log.log:/tmp/access_log.log
+      - /tmp/agent:/etc/agent
     entrypoint:
       - /bin/agent
       - -config.file=/etc/agent-config/agent.yaml

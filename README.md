@@ -75,3 +75,7 @@ environment:
   OTEL_SERVICE_NAME: aplicacion-test
   OTEL_TRACES_EXPORTER: otlp
 ```
+
+## Grafanna Cloud
+
+https://grafana.com
