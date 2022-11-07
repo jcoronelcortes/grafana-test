@@ -1,4 +1,8 @@
-version: "3.9"
+version: "3"
+
+networks:
+  loki:
+
 services:
 
   # Aplicacion test
@@ -15,6 +19,8 @@ services:
       OTEL_TRACES_EXPORTER: otlp
     ports:
       - "8080:8080"
+    networks:
+      - loki
 
   # Encargado de ejecutar la shellscript para simular trafico
   simulador-carga:
@@ -22,16 +28,20 @@ services:
     volumes:
       - ../aplicacion-test/simulador-carga.sh:/tmp/simulador-carga.sh
     command: /bin/sh -c "/tmp/simulador-carga.sh"
+    networks:
+      - loki
   
   loki:
     image: grafana/loki:latest
     volumes:
-      - ./config/loki-config.yaml:/etc/config/loki.yaml
+      - ./config/loki-local.yaml:/etc/loki/local-config.yaml
     entrypoint:
       - /usr/bin/loki
-      - -config.file=/etc/config/loki.yaml
+      - -config.file=/etc/loki/local-config.yaml
     ports:
       - "3100:3100"
+    networks:
+      - loki
      
   tempo:
     image: grafana/tempo:1.5.0
@@ -45,6 +55,8 @@ services:
       - "4317"  # otlp grpc
       - "4318"  # otlp http
       - "9411"   # zipkin
+    networks:
+      - loki
 
   prometheus:
     image: prom/prometheus:latest
@@ -56,11 +68,12 @@ services:
       "--web.console.templates=/usr/share/prometheus/consoles",
       "--web.enable-remote-write-receiver"
     ]
-
     volumes:
       - ./config/prometheus.yaml:/etc/prometheus.yaml
     ports:
       - "9090:9090"
+    networks:
+      - loki
 
   grafana:
     image: grafana/grafana:9.1.0
@@ -80,6 +93,8 @@ services:
       - GF_FEATURE_TOGGLES_ENABLE=tempoSearch,tempoServiceGraph,tempoApmTable
     ports:
       - "3000:3000"
+    networks:
+      - loki
 
   agent:
     image: grafana/agent:latest
@@ -105,3 +120,5 @@ services:
     depends_on:
       - loki
       - tempo
+    networks:
+      - loki
