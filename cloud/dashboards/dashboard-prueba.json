@@ -1,84 +1,12 @@
 {
-  "__inputs": [
-    {
-      "name": "DS_LOKI",
-      "label": "Loki",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "loki",
-      "pluginName": "Loki"
-    },
-    {
-      "name": "DS_PROMETHEUS",
-      "label": "Prometheus",
-      "description": "",
-      "type": "datasource",
-      "pluginId": "prometheus",
-      "pluginName": "Prometheus"
-    }
-  ],
-  "__elements": [],
-  "__requires": [
-    {
-      "type": "panel",
-      "id": "gauge",
-      "name": "Gauge",
-      "version": ""
-    },
-    {
-      "type": "grafana",
-      "id": "grafana",
-      "name": "Grafana",
-      "version": "8.4.3"
-    },
-    {
-      "type": "panel",
-      "id": "logs",
-      "name": "Logs",
-      "version": ""
-    },
-    {
-      "type": "datasource",
-      "id": "loki",
-      "name": "Loki",
-      "version": "1.0.0"
-    },
-    {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
-      "type": "panel",
-      "id": "stat",
-      "name": "Stat",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "state-timeline",
-      "name": "State timeline",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "text",
-      "name": "Text",
-      "version": ""
-    },
-    {
-      "type": "panel",
-      "id": "timeseries",
-      "name": "Time series",
-      "version": ""
-    }
-  ],
   "annotations": {
     "list": [
       {
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -96,31 +24,14 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": null,
+  "id": 16,
   "links": [],
   "liveNow": false,
   "panels": [
     {
-      "description": "",
-      "gridPos": {
-        "h": 10,
-        "w": 8,
-        "x": 0,
-        "y": 0
-      },
-      "id": 26,
-      "options": {
-        "content": "Dashboard for a simple [Spring Boot](https://spring.io/guides/gs/spring-boot) application, [Hello Observability](https://github.com/adamquan/hello-observability), to demonstrate observability by collecting and correlating logs, metrics and traces with:\n- [Prometheus](https://prometheus.io/)\n- [OpenTelemetry](https://opentelemetry.io/)\n- [Grafana Agent](https://grafana.com/docs/grafana-cloud/agent/)\n- [Grafana Cloud](https://grafana.com/products/cloud/)\n \n<img alt=\"architecture\" src=\"https://github.com/adamquan/hello-observability/raw/main/images/architecture.png\" width=\"1000\">",
-        "mode": "markdown"
-      },
-      "pluginVersion": "8.4.3",
-      "title": "Aplicacion Test",
-      "type": "text"
-    },
-    {
       "datasource": {
         "type": "loki",
-        "uid": "Loki"
+        "uid": "grafanacloud-logs"
       },
       "description": "",
       "fieldConfig": {
@@ -144,8 +55,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 7,
-        "x": 8,
+        "w": 9,
+        "x": 0,
         "y": 0
       },
       "hideTimeOverride": false,
@@ -166,14 +77,14 @@
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "9.2.3-997144b7",
       "targets": [
         {
           "datasource": {
             "type": "loki",
-            "uid": "Loki"
+            "uid": "grafanacloud-logs"
           },
-          "expr": "sum by(path) (count_over_time({job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` |= \"/observability\" [$__interval]))",
+          "expr": "sum by(path) (count_over_time({job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` |= \"/backend\" [$__interval]))",
           "hide": false,
           "legendFormat": "{{path}}",
           "refId": "B"
@@ -181,9 +92,9 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "Loki"
+            "uid": "grafanacloud-logs"
           },
-          "expr": "sum by(path) (count_over_time({job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` |= \"/prueba\" [$__interval]))",
+          "expr": "sum by(path) (count_over_time({job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` |= \"/frontend\" [$__interval]))",
           "legendFormat": "{{path}}",
           "queryType": "range",
           "refId": "A",
@@ -191,13 +102,13 @@
         }
       ],
       "timeFrom": "24h",
-      "title": "Total Requests",
+      "title": "Total de Solicitudes - Loki",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "loki",
-        "uid": "Loki"
+        "uid": "grafanacloud-logs"
       },
       "description": "",
       "fieldConfig": {
@@ -221,8 +132,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 5,
-        "x": 15,
+        "w": 8,
+        "x": 9,
         "y": 0
       },
       "hideTimeOverride": false,
@@ -243,12 +154,12 @@
         "text": {},
         "textMode": "value"
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "9.2.3-997144b7",
       "targets": [
         {
           "datasource": {
             "type": "loki",
-            "uid": "Loki"
+            "uid": "grafanacloud-logs"
           },
           "expr": "sum by(job) (count_over_time({job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` != \"/metrics\" [$__interval]))",
           "legendFormat": "",
@@ -258,13 +169,13 @@
         }
       ],
       "timeFrom": "5m",
-      "title": "Visitors",
+      "title": "Total de Visitas - Loki",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "loki",
-        "uid": "Loki"
+        "uid": "grafanacloud-logs"
       },
       "description": "",
       "fieldConfig": {
@@ -291,8 +202,8 @@
       },
       "gridPos": {
         "h": 10,
-        "w": 4,
-        "x": 20,
+        "w": 7,
+        "x": 17,
         "y": 0
       },
       "id": 22,
@@ -310,25 +221,25 @@
         },
         "textMode": "value_and_name"
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "9.2.3-997144b7",
       "targets": [
         {
           "datasource": {
             "type": "loki",
-            "uid": "Loki"
+            "uid": "grafanacloud-logs"
           },
           "expr": "sum by (status) (count_over_time({job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` != \"/metrics\" [$__interval]))",
           "legendFormat": "{{status}}",
           "refId": "A"
         }
       ],
-      "title": "Requests by status code",
+      "title": "Solicitudes por codigo de estado - Loki",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "loki",
-        "uid": "Loki"
+        "uid": "grafanacloud-logs"
       },
       "fieldConfig": {
         "defaults": {
@@ -351,8 +262,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 7,
-        "x": 8,
+        "w": 9,
+        "x": 0,
         "y": 5
       },
       "hideTimeOverride": false,
@@ -371,36 +282,36 @@
         },
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "9.2.3-997144b7",
       "targets": [
         {
           "datasource": {
             "type": "loki",
-            "uid": "Loki"
+            "uid": "grafanacloud-logs"
           },
-          "expr": "sum by (path) (sum_over_time({job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` |= \"/prueba\" | unwrap size [1m]))",
+          "expr": "sum by (path) (sum_over_time({job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` |= \"/frontend\" | unwrap size [1m]))",
           "legendFormat": "{{path}}",
           "refId": "A"
         },
         {
           "datasource": {
             "type": "loki",
-            "uid": "Loki"
+            "uid": "grafanacloud-logs"
           },
-          "expr": "sum by (path) (sum_over_time({job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` |= \"/observability\" | unwrap size [1m]))",
+          "expr": "sum by (path) (sum_over_time({job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` |= \"/backend\" | unwrap size [1m]))",
           "hide": false,
           "legendFormat": "{{path}}",
           "refId": "B"
         }
       ],
       "timeFrom": "5m",
-      "title": "Total Bytes Sent",
+      "title": "Total Bytes enviados - Loki",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "loki",
-        "uid": "Loki"
+        "uid": "grafanacloud-logs"
       },
       "description": "",
       "fieldConfig": {
@@ -409,6 +320,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -467,8 +380,8 @@
       },
       "gridPos": {
         "h": 5,
-        "w": 5,
-        "x": 15,
+        "w": 8,
+        "x": 9,
         "y": 5
       },
       "id": 28,
@@ -476,7 +389,8 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -487,20 +401,20 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "Loki"
+            "uid": "grafanacloud-logs"
           },
           "expr": "sum by (status) (count_over_time( {job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` != \"/metrics\" [1m]))",
           "legendFormat": "{{status}}",
           "refId": "A"
         }
       ],
-      "title": "HTTP status codes over time, per minute",
+      "title": "Codigos de estado HTTP en un tiempo por minuto - Loki",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "Prometheus"
+        "uid": "grafanacloud-prom"
       },
       "description": "",
       "fieldConfig": {
@@ -560,8 +474,9 @@
       "options": {
         "alignValue": "left",
         "legend": {
-          "displayMode": "hidden",
-          "placement": "bottom"
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": false
         },
         "mergeValues": true,
         "rowHeight": 0.5,
@@ -575,7 +490,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Prometheus"
+            "uid": "grafanacloud-prom"
           },
           "exemplar": true,
           "expr": "up{job=\"aplicacion-test\"}",
@@ -586,13 +501,13 @@
           "refId": "A"
         }
       ],
-      "title": "Service Up/Down",
+      "title": "Servicio Up/Down - Prometheus",
       "type": "state-timeline"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "Prometheus"
+        "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -637,12 +552,12 @@
         "showThresholdLabels": true,
         "showThresholdMarkers": true
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "9.2.3-997144b7",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Prometheus"
+            "uid": "grafanacloud-prom"
           },
           "exemplar": true,
           "expr": "sum by (path) (rate (requests_total[1m])) * 60",
@@ -651,13 +566,13 @@
           "refId": "A"
         }
       ],
-      "title": "Requests per Minute",
+      "title": "Requests por Minuto - Prometheus",
       "type": "gauge"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "Prometheus"
+        "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -706,12 +621,12 @@
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "8.4.3",
+      "pluginVersion": "9.2.3-997144b7",
       "targets": [
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Prometheus"
+            "uid": "grafanacloud-prom"
           },
           "exemplar": true,
           "expr": "sum by (path) (rate(request_duration_histogram_bucket{}[1m]))",
@@ -720,13 +635,13 @@
           "refId": "A"
         }
       ],
-      "title": "Latency",
+      "title": "Latencia - Prometheus",
       "type": "stat"
     },
     {
       "datasource": {
         "type": "loki",
-        "uid": "Loki"
+        "uid": "grafanacloud-logs"
       },
       "fieldConfig": {
         "defaults": {
@@ -734,6 +649,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "Bytes",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -789,7 +706,8 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -800,20 +718,20 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "Loki"
+            "uid": "grafanacloud-logs"
           },
           "expr": "quantile_over_time (0.90, {job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` != \"/metrics\" | unwrap size [1m] ) by (path)",
           "legendFormat": "{{path}}",
           "refId": "A"
         }
       ],
-      "title": "90% Percentile Response Size",
+      "title": "Percentil 90% - Tamaño respuesta - Loki",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "Prometheus"
+        "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -821,6 +739,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -876,7 +796,8 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -887,7 +808,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Prometheus"
+            "uid": "grafanacloud-prom"
           },
           "exemplar": false,
           "expr": "sum by (path) (rate(requests_total{job=\"aplicacion-test\"} [1m]) * 60)",
@@ -896,13 +817,13 @@
           "refId": "A"
         }
       ],
-      "title": "Requests per Minute",
+      "title": "Requests por Minuto - Prometheus",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "loki",
-        "uid": "Loki"
+        "uid": "grafanacloud-logs"
       },
       "fieldConfig": {
         "defaults": {
@@ -910,6 +831,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "%",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -962,7 +885,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "/prueba"
+              "options": "/frontend"
             },
             "properties": [
               {
@@ -977,7 +900,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "/observability"
+              "options": "/backend"
             },
             "properties": [
               {
@@ -1002,7 +925,8 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -1013,20 +937,20 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "Loki"
+            "uid": "grafanacloud-logs"
           },
           "expr": "sum by (path) (rate( {job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` != \"/metrics\" | status !=200 [1m])) / sum by (path) (rate( {job=\"tomcat-access\"} | pattern `<_> - - <_> \"<method> <path> <_>\" <status> <size>` != \"/metrics\" [1m])) * 100",
           "legendFormat": "{{path}}",
           "refId": "A"
         }
       ],
-      "title": "Error Rate",
+      "title": "Tasa de Error - Loki",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "prometheus",
-        "uid": "Prometheus"
+        "uid": "grafanacloud-prom"
       },
       "fieldConfig": {
         "defaults": {
@@ -1034,6 +958,8 @@
             "mode": "palette-classic"
           },
           "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
             "axisLabel": "",
             "axisPlacement": "auto",
             "barAlignment": 0,
@@ -1099,7 +1025,7 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "{path=\"/prueba\"}"
+              "options": "{path=\"/frontend\"}"
             },
             "properties": [
               {
@@ -1124,7 +1050,8 @@
         "legend": {
           "calcs": [],
           "displayMode": "list",
-          "placement": "bottom"
+          "placement": "bottom",
+          "showLegend": true
         },
         "tooltip": {
           "mode": "single",
@@ -1135,7 +1062,7 @@
         {
           "datasource": {
             "type": "prometheus",
-            "uid": "Prometheus"
+            "uid": "grafanacloud-prom"
           },
           "exemplar": true,
           "expr": "sum by (path) (rate(request_duration_histogram_bucket{}[1m]))",
@@ -1144,13 +1071,13 @@
           "refId": "A"
         }
       ],
-      "title": "Latency",
+      "title": "Latencia - Prometheus",
       "type": "timeseries"
     },
     {
       "datasource": {
         "type": "loki",
-        "uid": "Loki"
+        "uid": "grafanacloud-logs"
       },
       "gridPos": {
         "h": 5,
@@ -1173,17 +1100,17 @@
         {
           "datasource": {
             "type": "loki",
-            "uid": "Loki"
+            "uid": "grafanacloud-logs"
           },
           "expr": "{job=\"aplicacion-test\"}",
           "refId": "A"
         }
       ],
-      "title": "Logs",
+      "title": "Logs - Loki",
       "type": "logs"
     }
   ],
-  "schemaVersion": 35,
+  "schemaVersion": 37,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -1195,8 +1122,8 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Aplicacion Test",
+  "title": "Dashboard de Prueba",
   "uid": "UjJzQ1L7k",
-  "version": 2,
+  "version": 4,
   "weekStart": ""
 }

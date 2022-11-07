@@ -25,9 +25,9 @@ public class TestController {
     private final Summary resumenDuracionRequest;
 
 
-    @GetMapping("/prueba")
-    public String prueba() throws IOException {
-        String path = "/prueba";
+    @GetMapping("/frontend")
+    public String frontend() throws IOException {
+        String path = "/frontend";
         contadorRequest.labels(path).inc();
         timestampUltimoRequest.labels(path).setToCurrentTime();
         Histogram.Timer histogramRequestTimer = histogramaDuracionRequest.labels(path).startTimer();
@@ -45,7 +45,7 @@ public class TestController {
                 throw new IOException(e);
             }
 
-            Request request = new Request.Builder().url("http://localhost:8080/observability").build();
+            Request request = new Request.Builder().url("http://localhost:8080/backend").build();
             try (Response response = okHttpClient.newCall(request).execute()) {
                 return "Respuesta : " + response.body().string() + "!\n";
             }
@@ -57,9 +57,9 @@ public class TestController {
     }
 
 
-    @GetMapping("/observability")
+    @GetMapping("/backend")
     public String observability() throws IOException {
-        String path = "/observability";
+        String path = "/backend";
         contadorRequest.labels(path).inc();
         timestampUltimoRequest.labels(path).setToCurrentTime();
         Histogram.Timer histogramRequestTimer = histogramaDuracionRequest.labels(path).startTimer();
@@ -82,7 +82,7 @@ public class TestController {
             summaryRequestTimer.observeDuration();
         }
 
-        return "Observability ejecutada de forma exitosa";
+        return "Backend ejecutado de forma exitosa";
     }
 
     private void errorRandom(String path) throws IOException {

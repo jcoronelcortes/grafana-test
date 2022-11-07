@@ -1,1 +1,1 @@
-while true; do curl http://aplicacion-test:8080/prueba; sleep 10s; done
+while true; do curl http://aplicacion-test:8080/frontend; sleep 10s; done
