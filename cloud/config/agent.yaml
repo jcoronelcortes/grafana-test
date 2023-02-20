@@ -21,6 +21,13 @@ server:
   log_level: debug
   http_listen_port: 12345
 
+#integrations:
+#  node_exporter:
+#    enabled: true
+#    rootfs_path: /host/root
+#    sysfs_path: /host/sys
+#    procfs_path: /host/proc
+
 logs:
   configs:
   - name: default
@@ -41,7 +48,10 @@ logs:
               __path__: /tmp/access_log.log
 
     clients:
-      - url: http://${LOKI_HOST}/loki/api/v1/push
+      - url: https://logs-prod3.grafana.net/loki/api/v1/push
+        basic_auth:
+          username: 313412
+          password: eyJrIjoiMGFmMWJmMzVmODhmYmQ5ODVmNzM4OTkxZjUzMDNhZWY2MTc2YWEyYyIsIm4iOiJqY29yb25lbGNvcnRlcyIsImlkIjo3MzQ1NTN9
     target_config:
       sync_period: 10s
 
@@ -49,9 +59,36 @@ traces:
   configs:
   - name: default
     remote_write:
-      - endpoint: ${TEMPO_HOST}
-        insecure: true
+      - endpoint: tempo-us-central1.grafana.net:443
+        basic_auth:
+          username: 309925
+          password: eyJrIjoiMGFmMWJmMzVmODhmYmQ5ODVmNzM4OTkxZjUzMDNhZWY2MTc2YWEyYyIsIm4iOiJqY29yb25lbGNvcnRlcyIsImlkIjo3MzQ1NTN9
     receivers:
       otlp:
         protocols:
           grpc:
+          http: 
+
+metrics:
+  configs:
+  - name: aplicacion-test
+    remote_write:
+    - basic_auth:
+        username: 628883
+        password: eyJrIjoiMGFmMWJmMzVmODhmYmQ5ODVmNzM4OTkxZjUzMDNhZWY2MTc2YWEyYyIsIm4iOiJqY29yb25lbGNvcnRlcyIsImlkIjo3MzQ1NTN9
+      url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+    scrape_configs:
+    - job_name: aplicacion-test
+      scrape_interval: 10s
+      static_configs:
+      - targets:
+        - aplicacion-test:8080
+      metric_relabel_configs:
+        - source_labels: [ 'trace_id' ]
+          target_label: 'traceID'
+
+  global:
+    scrape_interval: 10s
+    external_labels:
+      monitor: aplicacion-test
+  wal_directory: /tmp/grafana-agent-wal

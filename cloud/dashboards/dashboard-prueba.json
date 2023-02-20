@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 16,
+  "id": 18,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -44,7 +44,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "dark-purple",
                 "value": null
               }
             ]
@@ -121,7 +121,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "purple",
+                "color": "dark-green",
                 "value": null
               }
             ]
@@ -192,7 +192,7 @@
                 "value": null
               },
               {
-                "color": "light-blue",
+                "color": "dark-blue",
                 "value": 20
               }
             ]
@@ -251,7 +251,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "orange",
+                "color": "dark-orange",
                 "value": null
               }
             ]
@@ -1080,7 +1080,7 @@
         "uid": "grafanacloud-logs"
       },
       "gridPos": {
-        "h": 5,
+        "h": 8,
         "w": 24,
         "x": 0,
         "y": 22
@@ -1102,14 +1102,54 @@
             "type": "loki",
             "uid": "grafanacloud-logs"
           },
+          "editorMode": "code",
           "expr": "{job=\"aplicacion-test\"}",
+          "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Logs - Loki",
+      "title": "Logs Aplicacion - Loki",
+      "type": "logs"
+    },
+    {
+      "datasource": {
+        "type": "loki",
+        "uid": "grafanacloud-logs"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 30
+      },
+      "id": 30,
+      "options": {
+        "dedupStrategy": "none",
+        "enableLogDetails": true,
+        "prettifyLogMessage": false,
+        "showCommonLabels": false,
+        "showLabels": false,
+        "showTime": false,
+        "sortOrder": "Descending",
+        "wrapLogMessage": false
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "grafanacloud-logs"
+          },
+          "editorMode": "code",
+          "expr": "{job=\"tomcat-access\"}",
+          "queryType": "range",
+          "refId": "A"
+        }
+      ],
+      "title": "Logs Tomcat - Loki",
       "type": "logs"
     }
   ],
+  "refresh": "10s",
   "schemaVersion": 37,
   "style": "dark",
   "tags": [],
@@ -1124,6 +1164,6 @@
   "timezone": "",
   "title": "Dashboard de Prueba",
   "uid": "UjJzQ1L7k",
-  "version": 4,
+  "version": 5,
   "weekStart": ""
 }
